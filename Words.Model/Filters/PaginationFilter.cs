@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Words.Model.Filters
 {
-    public class WordFilter: PaginationFilter
+    public class PaginationFilter
     {
-        public int? Length { get; set; }
+        public int PageSize { get; set; } = 1;
+        public int PageNumber { get; set; } = 0;
     }
 }

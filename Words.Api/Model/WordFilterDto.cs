@@ -1,6 +1,6 @@
 ﻿namespace Words.Api.Model
 {
-    public class WordFilterDto
+    public class WordFilterDto : PaginationFilterDto
     {
         public int? Length { get; set; }
     }

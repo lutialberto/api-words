@@ -13,7 +13,7 @@ namespace Words.DataAccess.Repositories
         }
         public IEnumerable<Word> GetAll()
         {
-            return _dbContext.Word.ToList();
+            return _dbContext.Word;
         }
 
         public IEnumerable<Word> GetByFilter(WordFilter filter)
@@ -23,7 +23,10 @@ namespace Words.DataAccess.Repositories
                 .Where(word => (
                     !filter.Length.HasValue || word.Value.Length == filter.Length
                 ))
-                .ToList();
+                //apply pagination
+                .Skip(filter.PageSize * filter.PageNumber)
+                .Take(filter.PageSize)
+                ;
         }
     }
 }
