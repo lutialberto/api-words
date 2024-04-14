@@ -7,7 +7,7 @@ using Words.Model.Services;
 namespace Words.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("words")]
     public class WordsController : ControllerBase
     {
         private readonly ILogger<WordsController> _logger;
