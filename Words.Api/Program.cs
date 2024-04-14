@@ -1,3 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Words.Api.Mappers;
+using Words.DataAccess;
+using Words.DataAccess.Repositories;
+using Words.Model.Repositories;
+using Words.Model.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +14,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//add services
+builder.Services.AddScoped<IWordService, WordService>();
+
+//add repositories
+builder.Services.AddDbContext<WordsDBContext>(options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=words;Trusted_Connection=True;Encrypt=no;"));
+builder.Services.AddScoped<IWordRepository, WordRepository>();
+
+//add mappers
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile<WordProfile>();
+},
+AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
