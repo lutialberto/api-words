@@ -7,5 +7,6 @@ namespace Words.Model.Services
     {
         public IEnumerable<Word> GetAll();
         public IEnumerable<Word> GetByFilter(PaginationFilter pagination, WordFilter filter);
+        public Word? GetRandomWord(WordFilter filter);
     }
 }

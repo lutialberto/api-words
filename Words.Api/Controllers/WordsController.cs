@@ -33,5 +33,14 @@ namespace Words.Api.Controllers
             var words = _wordService.GetByFilter(pagination, filter);
             return _mapper.Map<IEnumerable<WordDto>>(words);
         }
+
+
+        [HttpGet("random")]
+        public WordDto Get([FromQuery] WordFilterDto filterDto)
+        {
+            var filter = _mapper.Map<WordFilter>(filterDto);
+            var randomWord = _wordService.GetRandomWord(filter);
+            return _mapper.Map<WordDto>(randomWord);
+        }
     }
 }

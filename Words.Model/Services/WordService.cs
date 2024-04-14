@@ -25,5 +25,17 @@ namespace Words.Model.Services
             var query = _wordRepository.GetByFilter(filter);
             return PaginationHelper.ApplyPagination(query,pagination);
         }
+
+        public Word? GetRandomWord(WordFilter filter)
+        {
+            var query = _wordRepository.GetByFilter(filter);
+            var randomizer = new Random();
+            if(query?.Count() > 0)
+            {
+                var index = randomizer.Next(query.Count() -1);
+                return query.ElementAt(index);
+            }
+            return null;
+        }
     }
 }
