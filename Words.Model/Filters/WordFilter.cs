@@ -3,5 +3,7 @@
     public class WordFilter
     {
         public int? Length { get; set; }
+        public string? Value { get; set; }
+        public string? SimpleValue { get; set; }
     }
 }

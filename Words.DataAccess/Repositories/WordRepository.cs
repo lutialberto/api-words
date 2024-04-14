@@ -20,10 +20,12 @@ namespace Words.DataAccess.Repositories
         {
             return _dbContext
                 .Word
-                .Where(word => (
-                    !filter.Length.HasValue || word.Value.Length == filter.Length
-                ))
-                ;
+                .Where(word => 
+                    (!filter.Length.HasValue || word.Value.Length == filter.Length)
+                    && (string.IsNullOrEmpty(filter.Value) || word.Value == filter.Value)
+                    && (string.IsNullOrEmpty(filter.SimpleValue) || word.SimpleValue == filter.SimpleValue)
+                )
+            ;
         }
     }
 }
