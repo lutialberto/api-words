@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Words.Api.Model;
+using Words.Model.Filters;
 using Words.Model.Services;
 
 namespace Words.Api.Controllers
@@ -25,9 +26,10 @@ namespace Words.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WordDto> Get()
+        public IEnumerable<WordDto> Get([FromQuery] WordFilterDto filterDto)
         {
-            var words = _wordService.GetAll();
+            var filter = _mapper.Map<WordFilter>(filterDto);
+            var words = _wordService.GetByFilter(filter);
             return _mapper.Map<IEnumerable<WordDto>>(words);
         }
     }

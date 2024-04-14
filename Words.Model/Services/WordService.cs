@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Words.Model.Entities;
+using Words.Model.Filters;
 using Words.Model.Repositories;
 
 namespace Words.Model.Services
@@ -21,6 +22,11 @@ namespace Words.Model.Services
         public IEnumerable<Word> GetAll()
         {
             return _wordRepository.GetAll();
+        }
+
+        public IEnumerable<Word> GetByFilter(WordFilter filter)
+        {
+            return _wordRepository.GetByFilter(filter);
         }
     }
 }

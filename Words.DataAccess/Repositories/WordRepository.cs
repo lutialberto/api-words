@@ -1,4 +1,5 @@
 ﻿using Words.Model.Entities;
+using Words.Model.Filters;
 using Words.Model.Repositories;
 
 namespace Words.DataAccess.Repositories
@@ -13,6 +14,16 @@ namespace Words.DataAccess.Repositories
         public IEnumerable<Word> GetAll()
         {
             return _dbContext.Word.ToList();
+        }
+
+        public IEnumerable<Word> GetByFilter(WordFilter filter)
+        {
+            return _dbContext
+                .Word
+                .Where(word => (
+                    !filter.Length.HasValue || word.Value.Length == filter.Length
+                ))
+                .ToList();
         }
     }
 }
