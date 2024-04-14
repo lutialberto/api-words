@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Words.Model.Filters
+﻿namespace Words.Model.Filters
 {
-    public class WordFilter: PaginationFilter
+    public class WordFilter
     {
         public int? Length { get; set; }
     }

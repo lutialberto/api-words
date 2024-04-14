@@ -26,10 +26,11 @@ namespace Words.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WordDto> Get([FromQuery] WordFilterDto filterDto)
+        public IEnumerable<WordDto> Get([FromQuery] PaginationFilterDto paginationDto, [FromQuery] WordFilterDto filterDto)
         {
+            var pagination = _mapper.Map<PaginationFilter>(paginationDto);
             var filter = _mapper.Map<WordFilter>(filterDto);
-            var words = _wordService.GetByFilter(filter);
+            var words = _wordService.GetByFilter(pagination, filter);
             return _mapper.Map<IEnumerable<WordDto>>(words);
         }
     }

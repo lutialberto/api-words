@@ -25,6 +25,7 @@ builder.Services.AddScoped<IWordRepository, WordRepository>();
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<WordProfile>();
+    cfg.AddProfile<PaginationProfile>();
 },
 AppDomain.CurrentDomain.GetAssemblies());
 

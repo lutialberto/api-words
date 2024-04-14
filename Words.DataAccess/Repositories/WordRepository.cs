@@ -23,9 +23,6 @@ namespace Words.DataAccess.Repositories
                 .Where(word => (
                     !filter.Length.HasValue || word.Value.Length == filter.Length
                 ))
-                //apply pagination
-                .Skip(filter.PageSize * filter.PageNumber)
-                .Take(filter.PageSize)
                 ;
         }
     }
