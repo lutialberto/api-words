@@ -11,6 +11,8 @@ namespace Words.Api.Mappers
         {
             CreateMap<WordFilterDto, WordFilter>();
             CreateMap<Word, WordDto>();
+            CreateMap<WordPermutationsFilterDto, WordPermutationsFilter>();
+            CreateMap<WordPermutations, WordPermutationsDto>();
         }
     }
 }

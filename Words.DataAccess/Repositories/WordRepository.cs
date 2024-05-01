@@ -4,13 +4,10 @@ using Words.Model.Repositories;
 
 namespace Words.DataAccess.Repositories
 {
-    public class WordRepository : IWordRepository
+    public class WordRepository(WordsDBContext dBContext) : IWordRepository
     {
-        private readonly WordsDBContext _dbContext;
-        public WordRepository(WordsDBContext dBContext)
-        {
-            _dbContext = dBContext;
-        }
+        private readonly WordsDBContext _dbContext = dBContext;
+
         public IEnumerable<Word> GetAll()
         {
             return _dbContext.Word;
@@ -24,6 +21,7 @@ namespace Words.DataAccess.Repositories
                     (!filter.Length.HasValue || word.Value.Length == filter.Length)
                     && (string.IsNullOrEmpty(filter.Value) || word.Value == filter.Value)
                     && (string.IsNullOrEmpty(filter.SimpleValue) || word.SimpleValue == filter.SimpleValue)
+                    && (string.IsNullOrEmpty(filter.Substring) || word.SimpleValue.Contains(filter.Substring))
                 )
             ;
         }

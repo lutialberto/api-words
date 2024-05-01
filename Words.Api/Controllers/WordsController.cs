@@ -8,22 +8,15 @@ namespace Words.Api.Controllers
 {
     [ApiController]
     [Route("words")]
-    public class WordsController : ControllerBase
+    public class WordsController(
+        ILogger<WordsController> logger,
+        IWordService wordService,
+        IMapper mapper
+        ) : ControllerBase
     {
-        private readonly ILogger<WordsController> _logger;
-        private readonly IWordService _wordService;
-        private IMapper _mapper;
-
-        public WordsController(
-            ILogger<WordsController> logger,
-            IWordService wordService,
-            IMapper mapper
-        )
-        {
-            _logger = logger;
-            _wordService = wordService;
-            _mapper = mapper;
-        }
+        private readonly ILogger<WordsController> _logger = logger;
+        private readonly IWordService _wordService = wordService;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet]
         public IEnumerable<WordDto> Get([FromQuery] PaginationFilterDto paginationDto, [FromQuery] WordFilterDto filterDto)
@@ -36,11 +29,19 @@ namespace Words.Api.Controllers
 
 
         [HttpGet("random")]
-        public WordDto Get([FromQuery] WordFilterDto filterDto)
+        public WordDto GetRandomWord([FromQuery] WordFilterDto filterDto)
         {
             var filter = _mapper.Map<WordFilter>(filterDto);
             var randomWord = _wordService.GetRandomWord(filter);
             return _mapper.Map<WordDto>(randomWord);
+        }
+
+        [HttpGet("permutations")]
+        public WordPermutationsDto GetWordPermutations([FromQuery] WordPermutationsFilterDto filterDto)
+        {
+            var filter = _mapper.Map<WordPermutationsFilter>(filterDto);
+            var permutations = _wordService.GetPermutations(filter);
+            return _mapper.Map<WordPermutationsDto>(permutations);
         }
     }
 }
