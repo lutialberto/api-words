@@ -58,8 +58,15 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="data" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Word.sql" />
+    <Build Include="data\20240414_Word_Insert_Init.sql" />
+    <Build Include="dbo\Stored Procedures\Word_Insert.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\20240501_Word_Insert_2.sql" />
   </ItemGroup>
 </Project>
