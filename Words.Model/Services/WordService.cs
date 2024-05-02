@@ -70,7 +70,7 @@ namespace Words.Model.Services
                 char[] slice1 = letters.Skip(i+1)?.ToArray() ?? [];
                 char[] newArray = [.. slice0, .. slice1];
                 var subResult = GetSubWordsFromLetters(newArray);
-                result.Concat(subResult);
+                result = result.Concat(subResult).ToHashSet();
             }
 
             return result;
