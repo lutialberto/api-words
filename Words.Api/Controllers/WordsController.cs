@@ -11,11 +11,13 @@ namespace Words.Api.Controllers
     public class WordsController(
         ILogger<WordsController> logger,
         IWordService wordService,
+        IWordPermutationWrongGuessesService wordPermutationWrongGuesses,
         IMapper mapper
         ) : ControllerBase
     {
         private readonly ILogger<WordsController> _logger = logger;
         private readonly IWordService _wordService = wordService;
+        private readonly IWordPermutationWrongGuessesService _wordPermutationWrongGuessesService = wordPermutationWrongGuesses;
         private readonly IMapper _mapper = mapper;
 
         [HttpGet]
@@ -42,6 +44,13 @@ namespace Words.Api.Controllers
             var filter = _mapper.Map<WordPermutationsFilter>(filterDto);
             var permutations = _wordService.GetPermutations(filter);
             return _mapper.Map<WordPermutationsDto>(permutations);
+        }
+
+        [HttpPost("permutations/wrong-guesses")]
+        public Task SaveWordPermutationsWorngGuesses([FromBody] WordPermutationsWrongGuessesDto bodyDto)
+        {
+            _wordPermutationWrongGuessesService.SaveWrongGuesses(bodyDto.WrongGuesses, bodyDto.Letters);
+            return Task.CompletedTask;
         }
     }
 }

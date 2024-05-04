@@ -26,11 +26,13 @@ builder.Services.AddSwaggerGen();
 
 //add services
 builder.Services.AddScoped<IWordService, WordService>();
+builder.Services.AddScoped<IWordPermutationWrongGuessesService, WordPermutationWrongGuessesService>();
 
 //add repositories
 builder.Services.AddDbContext<WordsDBContext>(options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=words;Trusted_Connection=True;Encrypt=no;"));
 builder.Services.AddScoped<IWordRepository, WordRepository>();
 builder.Services.AddScoped<IWordPermutationExpressionRepository, WordPermutationExpressionRepository>();
+builder.Services.AddScoped<IWordPermutationWrongGuessesRepository, WordPermutationWrongGuessesRepository>();
 
 //add mappers
 builder.Services.AddAutoMapper(cfg =>
