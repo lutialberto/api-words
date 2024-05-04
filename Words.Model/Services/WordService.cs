@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 using Words.Model.Entities;
 using Words.Model.Filters;
 using Words.Model.Repositories;
@@ -7,10 +8,12 @@ using Words.Model.Utils;
 namespace Words.Model.Services
 {
     public class WordService(
-        IWordRepository wordRepository
+        IWordRepository wordRepository,
+        IWordPermutationExpressionRepository wordPermutationExpressionRepository
         ) : IWordService
     {
         readonly IWordRepository _wordRepository = wordRepository;
+        readonly IWordPermutationExpressionRepository _wordPermutationExpressionRepository = wordPermutationExpressionRepository;
 
         public IEnumerable<Word> GetAll()
         {
@@ -25,21 +28,17 @@ namespace Words.Model.Services
 
         public WordPermutations GetPermutations(WordPermutationsFilter filter)
         {
-            var query = _wordRepository.GetByFilter(new WordFilter
-            {
-                Length = filter.Length,
-                Substring = filter.Substring
-            });
+            var wordToSplit = GetWordToSplitIntoLetters(filter);
 
-            if(query == null || !query.Any())
-            {
-                throw new Exception("Do not exists a word for the given criteria");
-            }
-            var randomIndex = new Random().Next(0, query.Count());
-            var wordToSplit = query.ElementAt(randomIndex).SimpleValue;
+            var wordPermutationRegExp = _wordPermutationExpressionRepository.GetById(wordToSplit.Id) ?? throw new Exception("Do not exists a word permutation regexp for the given word" + wordToSplit.Value);
 
-            var letters = wordToSplit.ToCharArray();
-            var permutations = GetSubWordsFromLetters(letters);
+            var letters = wordToSplit.SimpleValue.ToCharArray();
+            var result = _wordPermutationExpressionRepository.GetByRegExp(wordPermutationRegExp);
+            var permutations = result
+                .Where(word => Regex.IsMatch(word.LettersSorted, wordPermutationRegExp.PermutationRegExp))
+                .Select(e => e.WordSimpleValue)
+                .OrderByDescending(e => e.Length);
+
             return new WordPermutations
             {
                 Letters = letters,
@@ -47,33 +46,20 @@ namespace Words.Model.Services
             };
         }
 
-        private HashSet<string> GetSubWordsFromLetters(char[] letters)
+        private Word GetWordToSplitIntoLetters(WordPermutationsFilter filter)
         {
-            if (letters.Length == 0) return [];
-            HashSet<string> result = [];
             var query = _wordRepository.GetByFilter(new WordFilter
             {
-                Length = letters.Length,
-            }).ToList();
+                Length = filter.Length,
+            });
 
-            foreach (var word in query.Where(e => letters.All(letter => e.SimpleValue.Contains(letter))))
+            if (query == null || !query.Any())
             {
-                if(word.SimpleValue.ToCharArray().All(l => letters.Contains(l)))
-                {
-                    result.Add(word.SimpleValue);
-                }
+                throw new Exception("Do not exists a word for the given criteria");
             }
-
-            for (int i = 0; i < letters.Length; i++)
-            {
-                char[] slice0 = letters.Take(i)?.ToArray() ?? [];
-                char[] slice1 = letters.Skip(i+1)?.ToArray() ?? [];
-                char[] newArray = [.. slice0, .. slice1];
-                var subResult = GetSubWordsFromLetters(newArray);
-                result = result.Concat(subResult).ToHashSet();
-            }
-
-            return result;
+            var randomIndex = new Random().Next(0, query.Count());
+            var wordToSplit = query.ElementAt(randomIndex);
+            return wordToSplit;
         }
 
         public Word? GetRandomWord(WordFilter filter)

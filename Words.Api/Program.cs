@@ -30,6 +30,7 @@ builder.Services.AddScoped<IWordService, WordService>();
 //add repositories
 builder.Services.AddDbContext<WordsDBContext>(options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=words;Trusted_Connection=True;Encrypt=no;"));
 builder.Services.AddScoped<IWordRepository, WordRepository>();
+builder.Services.AddScoped<IWordPermutationExpressionRepository, WordPermutationExpressionRepository>();
 
 //add mappers
 builder.Services.AddAutoMapper(cfg =>
