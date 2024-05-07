@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Words.Api.Mappers;
 using Words.DataAccess;
 using Words.DataAccess.Repositories;
+using Words.Model.Entities;
 using Words.Model.Repositories;
 using Words.Model.Services;
 
@@ -27,12 +28,14 @@ builder.Services.AddSwaggerGen();
 //add services
 builder.Services.AddScoped<IWordService, WordService>();
 builder.Services.AddScoped<IWordPermutationWrongGuessesService, WordPermutationWrongGuessesService>();
+builder.Services.AddScoped<IWordWordleWrongGuessService, WordWordleWrongGuessService>();
 
 //add repositories
 builder.Services.AddDbContext<WordsDBContext>(options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=words;Trusted_Connection=True;Encrypt=no;"));
 builder.Services.AddScoped<IWordRepository, WordRepository>();
 builder.Services.AddScoped<IWordPermutationExpressionRepository, WordPermutationExpressionRepository>();
 builder.Services.AddScoped<IWordPermutationWrongGuessesRepository, WordPermutationWrongGuessesRepository>();
+builder.Services.AddScoped<IWordWordleWrongGuessRepository, WordWordleWrongGuessRepository>();
 
 //add mappers
 builder.Services.AddAutoMapper(cfg =>

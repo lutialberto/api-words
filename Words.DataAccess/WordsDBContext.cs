@@ -8,5 +8,6 @@ namespace Words.DataAccess
         public virtual DbSet<Word> Word { get; set; }
         public virtual DbSet<WordPermutationExpression> WordPermutationExpression { get; set; }
         public virtual DbSet<WordPermutationWrongGuesses> WordPermutationWrongGuesses { get; set; }
+        public virtual DbSet<WordWordleWrongGuess> WordWordleWrongGuess { get; set; }
     }
 }

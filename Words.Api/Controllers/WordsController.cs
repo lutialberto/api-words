@@ -11,13 +11,15 @@ namespace Words.Api.Controllers
     public class WordsController(
         ILogger<WordsController> logger,
         IWordService wordService,
-        IWordPermutationWrongGuessesService wordPermutationWrongGuesses,
+        IWordPermutationWrongGuessesService wordPermutationWrongGuessesService,
+        IWordWordleWrongGuessService wordWordleWrongGuessService,
         IMapper mapper
         ) : ControllerBase
     {
         private readonly ILogger<WordsController> _logger = logger;
         private readonly IWordService _wordService = wordService;
-        private readonly IWordPermutationWrongGuessesService _wordPermutationWrongGuessesService = wordPermutationWrongGuesses;
+        private readonly IWordPermutationWrongGuessesService _wordPermutationWrongGuessesService = wordPermutationWrongGuessesService;
+        private readonly IWordWordleWrongGuessService _wordWordleWrongGuessService = wordWordleWrongGuessService;
         private readonly IMapper _mapper = mapper;
 
         [HttpGet]
@@ -47,9 +49,16 @@ namespace Words.Api.Controllers
         }
 
         [HttpPost("permutations/wrong-guesses")]
-        public Task SaveWordPermutationsWorngGuesses([FromBody] WordPermutationsWrongGuessesDto bodyDto)
+        public Task SaveWordPermutationsWrongGuesses([FromBody] WordPermutationsWrongGuessesDto bodyDto)
         {
             _wordPermutationWrongGuessesService.SaveWrongGuesses(bodyDto.WrongGuesses, bodyDto.Letters);
+            return Task.CompletedTask;
+        }
+
+        [HttpPost("wordle/wrong-guess")]
+        public Task SaveWordWordleWrongGuess([FromBody] WordWordleWrongGuessDto bodyDto)
+        {
+            _wordWordleWrongGuessService.SaveWrongGuess(bodyDto.Word);
             return Task.CompletedTask;
         }
     }

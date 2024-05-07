@@ -71,6 +71,7 @@
     <Build Include="dbo\Stored Procedures\WordPermutationExpression_Insert.sql" />
     <Build Include="data\20240501_WordPermutationRegExp_Init.sql" />
     <Build Include="dbo\Tables\WordPermutationWrongGuesses.sql" />
+    <Build Include="dbo\Tables\WordWordleWrongGuess.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\20240501_Word_Insert_2.sql" />
