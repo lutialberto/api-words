@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Words.Api.Model;
+using Words.Model.Entities;
 using Words.Model.Filters;
 using Words.Model.Services;
 
@@ -13,6 +14,7 @@ namespace Words.Api.Controllers
         IWordService wordService,
         IWordPermutationWrongGuessesService wordPermutationWrongGuessesService,
         IWordWordleWrongGuessService wordWordleWrongGuessService,
+        IWordTabooCardService wordTabooCardService,
         IMapper mapper
         ) : ControllerBase
     {
@@ -20,6 +22,7 @@ namespace Words.Api.Controllers
         private readonly IWordService _wordService = wordService;
         private readonly IWordPermutationWrongGuessesService _wordPermutationWrongGuessesService = wordPermutationWrongGuessesService;
         private readonly IWordWordleWrongGuessService _wordWordleWrongGuessService = wordWordleWrongGuessService;
+        private readonly IWordTabooCardService _wordTabooCardService = wordTabooCardService;
         private readonly IMapper _mapper = mapper;
 
         [HttpGet]
@@ -60,6 +63,13 @@ namespace Words.Api.Controllers
         {
             _wordWordleWrongGuessService.SaveWrongGuess(bodyDto.Word);
             return Task.CompletedTask;
+        }
+
+        [HttpGet("taboo")]
+        public WordTabooCardDto GetWordTabooCard([FromQuery] WordTabooCardFilterDto filterDto)
+        {
+            var result = _wordTabooCardService.GetWordTabooCard(filterDto.WordIdsToExclude);
+            return _mapper.Map< WordTabooCardDto> (result);
         }
     }
 }

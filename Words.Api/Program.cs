@@ -29,6 +29,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IWordService, WordService>();
 builder.Services.AddScoped<IWordPermutationWrongGuessesService, WordPermutationWrongGuessesService>();
 builder.Services.AddScoped<IWordWordleWrongGuessService, WordWordleWrongGuessService>();
+builder.Services.AddScoped<IWordTabooCardService, WordTabooCardService>();
 
 //add repositories
 builder.Services.AddDbContext<WordsDBContext>(options => options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=words;Trusted_Connection=True;Encrypt=no;"));
@@ -36,6 +37,7 @@ builder.Services.AddScoped<IWordRepository, WordRepository>();
 builder.Services.AddScoped<IWordPermutationExpressionRepository, WordPermutationExpressionRepository>();
 builder.Services.AddScoped<IWordPermutationWrongGuessesRepository, WordPermutationWrongGuessesRepository>();
 builder.Services.AddScoped<IWordWordleWrongGuessRepository, WordWordleWrongGuessRepository>();
+builder.Services.AddScoped<IWordTabooCardRepository, WordTabooCardRepository>();
 
 //add mappers
 builder.Services.AddAutoMapper(cfg =>
