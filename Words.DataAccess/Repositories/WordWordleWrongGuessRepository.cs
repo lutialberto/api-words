@@ -28,7 +28,7 @@ namespace Words.DataAccess.Repositories
                     Quantity = 1
                 });
             }
-            _dbContext.SaveChangesAsync();
+             _dbContext.SaveChanges();
         }
     }
 }
