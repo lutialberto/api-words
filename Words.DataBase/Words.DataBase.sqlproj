@@ -73,6 +73,7 @@
     <Build Include="dbo\Tables\WordPermutationWrongGuesses.sql" />
     <Build Include="dbo\Tables\WordWordleWrongGuess.sql" />
     <Build Include="data\20240916_Word_Insert3.sql" />
+    <Build Include="data\20250524_Word_Insert4.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\20240501_Word_Insert_2.sql" />
