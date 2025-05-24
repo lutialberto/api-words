@@ -15,5 +15,6 @@ namespace Words.Model.Entities
         public int Id { get; set; }
         public string Word { get; set; }
         public int Quantity { get; set; }
+        public DateTime LastWrongGuessDate { get; set; }
     }
 }

@@ -18,7 +18,9 @@ namespace Words.DataAccess.Repositories
             if(guess != null)
             {
                 guess.Quantity++;
-                _dbContext.WordWordleWrongGuess.Update(guess);
+                guess.LastWrongGuessDate = DateTime.UtcNow;
+
+				_dbContext.WordWordleWrongGuess.Update(guess);
             }
             else
             {
